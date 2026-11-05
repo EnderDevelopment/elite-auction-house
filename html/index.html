@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction House</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app" class="hidden">
+        <!-- Header -->
+        <div class="auction-header">
+            <h1 class="auction-title">Auction House</h1>
+            <button class="close-btn" onclick="closeUI()">X</button>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="auction" onclick="switchTab('auction')">Auction</button>
+            <button class="tab-btn" data-tab="list" onclick="switchTab('list')">Sell Item</button>
+            <button class="tab-btn" data-tab="mine" onclick="switchTab('mine')">My Listings</button>
+        </div>
+
+        <!-- AUCTION TAB -->
+        <div id="tab-auction" class="tab-content active">
+            <!-- Vehicle / Clothing filter tabs -->
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" data-sub="vehicles" onclick="switchSubTab('vehicles')">Vehicles</button>
+                <button class="sub-tab-btn" data-sub="clothes" onclick="switchSubTab('clothes')">Clothing</button>
+            </div>
+
+            <!-- Vehicle category filter -->
+            <div class="category-row" id="vehicle-categories">
+                <button class="cat-btn active" data-cat="all" onclick="filterVehicles('all')">All</button>
+                <button class="cat-btn" data-cat="super" onclick="filterVehicles('super')">Super</button>
+                <button class="cat-btn" data-cat="sport" onclick="filterVehicles('sport')">Sport</button>
+                <button class="cat-btn" data-cat="sports_classic" onclick="filterVehicles('sports_classic')">Classic</button>
+                <button class="cat-btn" data-cat="muscle" onclick="filterVehicles('muscle')">Muscle</button>
+                <button class="cat-btn" data-cat="offroad" onclick="filterVehicles('offroad')">Off-Road</button>
+                <button class="cat-btn" data-cat="motorcycles" onclick="filterVehicles('motorcycles')">Bikes</button>
+                <button class="cat-btn" data-cat="sedans" onclick="filterVehicles('sedans')">Sedans</button>
+                <button class="cat-btn" data-cat="coupes" onclick="filterVehicles('coupes')">Coupes</button>
+                <button class="cat-btn" data-cat="suvs" onclick="filterVehicles('suvs')">SUVs</button>
+                <button class="cat-btn" data-cat="vans" onclick="filterVehicles('vans')">Vans</button>
+            </div>
+
+            <!-- Vehicle listings -->
+            <div id="sub-vehicles" class="sub-tab-content active">
+                <div id="vehicle-listings" class="listings-grid"></div>
+                <div id="empty-vehicles" class="empty-msg hidden">No vehicles currently listed for auction.</div>
+            </div>
+
+            <!-- Clothing listings -->
+            <div id="sub-clothes" class="sub-tab-content">
+                <div id="clothing-listings" class="listings-grid"></div>
+                <div id="empty-clothes" class="empty-msg hidden">No clothing currently listed for auction.</div>
+            </div>
+        </div>
+
+        <!-- SELL TAB -->
+        <div id="tab-list" class="tab-content">
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" data-sub="sell-vehicle" onclick="switchSubTab('sell-vehicle')">Sell Vehicle</button>
+                <button class="sub-tab-btn" data-sub="sell-clothing" onclick="switchSubTab('sell-clothing')">Sell Clothing</button>
+            </div>
+
+            <!-- Sell Vehicle -->
+            <div id="sub-sell-vehicle" class="sub-tab-content active">
+                <h3>Select a vehicle to sell</h3>
+                <div id="sellable-vehicles" class="sell-list"></div>
+            </div>
+
+            <!-- Sell Clothing -->
+            <div id="sub-sell-clothing" class="sub-tab-content">
+                <h3>Select a clothing slot to sell</h3>
+                <div id="sellable-clothing" class="sell-list"></div>
+            </div>
+        </div>
+
+        <!-- MY LISTINGS TAB -->
+        <div id="tab-mine" class="tab-content">
+            <h3>My Active Listings</h3>
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" data-sub="my-vehicles" onclick="switchSubTab('my-vehicles')">Vehicles</button>
+                <button class="sub-tab-btn" data-sub="my-clothes" onclick="switchSubTab('my-clothes')">Clothing</button>
+            </div>
+            <div id="sub-my-vehicles" class="sub-tab-content active">
+                <div id="my-vehicle-listings" class="listings-grid"></div>
+                <div id="empty-my-vehicles" class="empty-msg hidden">You have no vehicle listings.</div>
+            </div>
+            <div id="sub-my-clothes" class="sub-tab-content">
+                <div id="my-clothing-listings" class="listings-grid"></div>
+                <div id="empty-my-clothes" class="empty-msg hidden">You have no clothing listings.</div>
+            </div>
+            <button class="action-btn refresh-btn" onclick="requestMyListings()">Refresh</button>
+        </div>
+    </div>
+
+    <!-- Modal for listing vehicle -->
+    <div id="modal-list-vehicle" class="modal hidden">
+        <div class="modal-content">
+            <h3>List Vehicle for Auction</h3>
+            <p id="modal-vehicle-name"></p>
+            <label for="vehicle-price">Buy Now Price ($)</label>
+            <input type="number" id="vehicle-price" min="1" placeholder="Enter price">
+            <div class="modal-actions">
+                <button class="action-btn confirm-btn" onclick="confirmListVehicle()">List Vehicle</button>
+                <button class="action-btn cancel-btn" onclick="closeModal('modal-list-vehicle')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for listing clothing -->
+    <div id="modal-list-clothing" class="modal hidden">
+        <div class="modal-content">
+            <h3>List Clothing for Auction</h3>
+            <p id="modal-clothing-name"></p>
+            <label for="clothing-price">Buy Now Price ($)</label>
+            <input type="number" id="clothing-price" min="1" placeholder="Enter price">
+            <p class="hint">Selling this item will remove it from your character. If no one bids within 24 hours, it will expire.</p>
+            <div class="modal-actions">
+                <button class="action-btn confirm-btn" onclick="confirmListClothing()">List Clothing</button>
+                <button class="action-btn cancel-btn" onclick="closeModal('modal-list-clothing')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for placing a bid -->
+    <div id="modal-bid" class="modal hidden">
+        <div class="modal-content">
+            <h3>Place a Bid</h3>
+            <p id="modal-bid-item"></p>
+            <p id="modal-bid-current"></p>
+            <label for="bid-amount">Your Bid ($)</label>
+            <input type="number" id="bid-amount" min="1" placeholder="Enter bid amount">
+            <div class="modal-actions">
+                <button class="action-btn confirm-btn" onclick="confirmBid()">Place Bid</button>
+                <button class="action-btn cancel-btn" onclick="closeModal('modal-bid')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

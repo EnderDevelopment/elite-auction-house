@@ -1,0 +1,474 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: transparent;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    width: 800px;
+    max-width: 90vw;
+    max-height: 80vh;
+    background: rgba(10, 12, 18, 0.94);
+    border: 2px solid rgba(0, 200, 150, 0.4);
+    border-radius: 8px;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+}
+
+.auction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #0d1f1a 0%, #123229 100%);
+    border-bottom: 2px solid rgba(0, 200, 150, 0.3);
+}
+
+.auction-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #00c896;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.close-btn {
+    background: none;
+    border: 2px solid rgba(255, 80, 80, 0.5);
+    color: #ff5555;
+    font-size: 18px;
+    font-weight: bold;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 80, 80, 0.2);
+    transform: scale(1.1);
+}
+
+.tabs {
+    display: flex;
+    gap: 5px;
+    padding: 10px 15px 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid rgba(100, 100, 120, 0.3);
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    color: #00c896;
+    border-color: rgba(0, 200, 150, 0.4);
+}
+
+.tab-btn.active {
+    background: rgba(0, 200, 150, 0.15);
+    color: #00c896;
+    border-color: rgba(0, 200, 150, 0.5);
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sub-tabs {
+    display: flex;
+    gap: 5px;
+    border-bottom: 1px solid rgba(100, 100, 120, 0.2);
+    padding-bottom: 10px;
+}
+
+.sub-tab-btn {
+    padding: 6px 15px;
+    background: transparent;
+    border: 1px solid rgba(100, 100, 120, 0.3);
+    border-radius: 4px;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.sub-tab-btn:hover {
+    color: #00c896;
+}
+
+.sub-tab-btn.active {
+    background: rgba(0, 200, 150, 0.15);
+    color: #00c896;
+    border-color: rgba(0, 200, 150, 0.5);
+}
+
+.sub-tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sub-tab-content.active {
+    display: flex;
+}
+
+.category-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.cat-btn {
+    padding: 5px 12px;
+    background: rgba(30, 30, 45, 0.6);
+    border: 1px solid rgba(100, 100, 120, 0.3);
+    border-radius: 4px;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.cat-btn:hover {
+    color: #00c896;
+    border-color: rgba(0, 200, 150, 0.4);
+}
+
+.cat-btn.active {
+    background: rgba(0, 200, 150, 0.15);
+    color: #00c896;
+    border-color: rgba(0, 200, 150, 0.5);
+}
+
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+}
+
+.listing-card {
+    background: rgba(20, 25, 35, 0.8);
+    border: 1px solid rgba(100, 100, 120, 0.2);
+    border-radius: 6px;
+    padding: 12px;
+    transition: border-color 0.2s;
+}
+
+.listing-card:hover {
+    border-color: rgba(0, 200, 150, 0.5);
+}
+
+.listing-card.premium {
+    border-color: rgba(255, 185, 0, 0.5);
+}
+
+.listing-card.premium:hover {
+    border-color: rgba(255, 185, 0, 0.8);
+}
+
+.listing-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f0f0f0;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.premium-badge {
+    background: linear-gradient(135deg, #f7b733, #fc4a1a);
+    color: #000;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.listing-detail {
+    font-size: 12px;
+    color: #aaa;
+    margin: 3px 0;
+}
+
+.listing-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #00c896;
+    margin: 8px 0;
+}
+
+.listing-current-bid {
+    font-size: 13px;
+    color: #ffb700;
+    font-weight: 600;
+}
+
+.listing-days-left {
+    font-size: 11px;
+    color: #888;
+}
+
+.listing-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s;
+    color: #fff;
+}
+
+.buy-now-btn {
+    background: #00c896;
+    flex: 2;
+}
+
+.buy-now-btn:hover {
+    background: #00a87d;
+}
+
+.bid-btn {
+    background: #3d6db5;
+    flex: 1;
+}
+
+.bid-btn:hover {
+    background: #2f5791;
+}
+
+.preview-btn {
+    background: #565c6e;
+    flex: 1;
+}
+
+.preview-btn:hover {
+    background: #424753;
+}
+
+.cancel-btn {
+    background: #e74c3c;
+}
+
+.cancel-btn:hover {
+    background: #c0392b;
+}
+
+.refresh-btn {
+    background: #3d6db5;
+    flex: none;
+    padding: 8px 20px;
+}
+
+.refresh-btn:hover {
+    background: #2f5791;
+}
+
+.empty-msg {
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+    padding: 30px 0;
+}
+
+.sell-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.sell-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(20, 25, 35, 0.8);
+    border: 1px solid rgba(100, 100, 120, 0.2);
+    border-radius: 6px;
+    padding: 10px 15px;
+    transition: border-color 0.2s;
+}
+
+.sell-item:hover {
+    border-color: rgba(0, 200, 150, 0.4);
+}
+
+.sell-item-name {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.sell-item-meta {
+    font-size: 11px;
+    color: #888;
+    margin-top: 2px;
+}
+
+.sell-item-btn {
+    padding: 6px 15px;
+    background: #00c896;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.sell-item-btn:hover {
+    background: #00a87d;
+}
+
+h3 {
+    color: #e0e0e0;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.hint {
+    font-size: 11px;
+    color: #888;
+    margin-top: 6px;
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: rgba(15, 18, 26, 0.97);
+    border: 2px solid rgba(0, 200, 150, 0.4);
+    border-radius: 8px;
+    padding: 25px;
+    width: 420px;
+    max-width: 90vw;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-content h3 {
+    font-size: 18px;
+    color: #00c896;
+}
+
+.modal-content p {
+    color: #bbb;
+    font-size: 13px;
+}
+
+.modal-content label {
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.modal-content input {
+    padding: 10px;
+    background: rgba(30, 35, 50, 0.8);
+    border: 1px solid rgba(100, 100, 120, 0.4);
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: #00c896;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.modal-actions .action-btn {
+    padding: 10px;
+}
+
+.confirm-btn {
+    background: #00c896;
+}
+
+.confirm-btn:hover {
+    background: #00a87d;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 200, 150, 0.4);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 200, 150, 0.6);
+}
